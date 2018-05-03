@@ -21,17 +21,13 @@ app.post('/todos', (req, res) => {
 
   todo.save().then((doc) => {
     res.send(doc);
-  }, (e) => {
-    res.status(400).send(e);
-  });
+  }).catch((e) => res.status(400).send(e));
 });
 
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos});
-  }, (e) => {
-    res.status(400).send(e);
-  });
+  }).catch((e) => res.status(400).send(e));
 });
 
 app.get('/todos/:id', (req,res) => {
@@ -46,9 +42,7 @@ app.get('/todos/:id', (req,res) => {
     }
 
     res.send({todo});
-  }).catch((e) => {
-    res.status(400).send();
-  });
+  }).catch((e) => res.status(400).send(e));
 });
 
 app.delete('/todos/:id', (req,res) => {
@@ -63,9 +57,7 @@ app.delete('/todos/:id', (req,res) => {
     }
 
     res.send({todo});
-  }).catch((e) => {
-    res.status(400).send();
-  });
+  }).catch((e) => res.status(400).send(e));
 });
 
 app.patch('/todos/:id', (req, res) => {
@@ -89,9 +81,18 @@ app.patch('/todos/:id', (req, res) => {
     }
 
     res.send({todo});
-  }).catch((e) => {
-    res.status(404).send();
-  });
+  }).catch((e) => res.status(400).send(e));
+});
+
+//User routes
+
+app.post('/users', (req,res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+  const user = new User(body);
+
+  user.save().then(user => user.generateAuthToken())
+  .then((token) => res.header('x-auth', token).send(user))
+  .catch((e) => res.status(400).send(e));
 });
 
 app.listen(port, () => {
