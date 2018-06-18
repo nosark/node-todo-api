@@ -1,0 +1,10 @@
+{
+    "extends": "airbnb-base",
+    "env": {
+      "mocha": true,
+      "jest": true
+    },
+    "rules": {
+      "no-underscore-dangle": [2, { "allow": ["_id", "_user", "_caretaker"] }]
+    }
+}

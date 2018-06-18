@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
 
-//Todo Schema
+//  Todo Schema
 const Todo = mongoose.model('Todo', {
   text: {
     type: String,
-    required: true,  //requires that this field exists
-    minlength: 1,  //mininum string length
-    trim: true //trims trailing white space at beginning or end
+    required: true,
+    minlength: 1,
+    trim: true,
   },
   completed: {
     type: Boolean,
-    default: false
+    default: false,
   },
   completedAt: {
     type: Number,
-    default: null
+    default: null,
   },
   _creator: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true
-  }
+    required: true,
+  },
 });
 
-module.exports = {Todo};
+module.exports = { Todo };
